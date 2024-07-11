@@ -107,6 +107,13 @@ namespace Log4Net.Helper.Appender
                 this.repository.Add((IEnumerable<LogEvent>)state, base.BufferSize);
 
                 double ms = (DateTime.Now - now).TotalMilliseconds;
+                if (Alert == null)
+                {
+                    Alert = new AlertSetting()
+                    {
+                        LocalAlertMs = 3000
+                    };
+                }
                 if (Alert.LocalAlertMs > 0 && ms > Alert.LocalAlertMs)
                 {
                     HandleError(string.Format("Take too much time({0}ms) to push data to elasticsearch", ms), Level.Warn);
